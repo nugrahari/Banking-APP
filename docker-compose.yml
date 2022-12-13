@@ -1,0 +1,40 @@
+version: "3"
+services:
+  api:
+    build: $PWD/api
+    volumes:
+      - $PWD/api/app:/app
+    ports:
+      - "31000:8000"
+    environment:
+      - DEBUG
+      - JWT_SECRET
+      - JWT_ISSUER
+      - ASKLORA_DB
+      - ASKLORA_USER
+      - ASKLORA_PASSWORD
+
+    restart: unless-stopped
+    depends_on:
+      - db
+    command: ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0"]
+  db:
+    build: $PWD/db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD
+      - ASKLORA_DB
+      - ASKLORA_USER
+      - ASKLORA_PASSWORD
+    restart: unless-stopped
+  db-admin:
+    image: adminer
+    ports:
+      - 8081:8080
+    restart: unless-stopped
+    depends_on:
+      - db
+
+volumes:
+  db_data:

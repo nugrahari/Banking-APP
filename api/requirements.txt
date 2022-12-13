@@ -1,0 +1,7 @@
+fastapi==0.68.1
+phonenumbers==8.12.26
+psycopg2-binary==2.9.1
+PyJWT==2.1.0
+requests==2.26.0
+SQLAlchemy==1.4.25
+passlib==1.7.4
